@@ -1,5 +1,16 @@
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.send('บอทกำลังทำงานอยู่จ้า!');
+});
+
+app.listen(port, () => {
+    console.log(`🌍 เว็บเซิร์ฟเวอร์จำลองรันที่พอร์ต ${port}`);
+});
 require('dotenv').config();
-// เพิ่ม EmbedBuilder เข้ามาเพื่อทำกล่องข้อความสวยๆ
+
 const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 
 const client = new Client({
