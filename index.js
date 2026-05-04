@@ -47,6 +47,12 @@ const vipMessages = {
         join: 'สวัดดีครับพรี่ <@{user}> ที่เข้ามาใน **{newChannel}** ช่างเป็นเกียรติจริงๆ',
         leave: 'ท่าน<@{user}> ออกจาก **{oldChannel}** ไปแล้ว ช่างน่าเสียใจ',
         move: 'ท่าน<@{user}> เดินเล่นจาก **{oldChannel}** ไป **{newChannel}** '
+    },
+'1276910034701258864': { // 👈 ไอดีเพื่อนอีกคน
+        join: 'สวัสดีครับน้อง <@{user}> ที่เข้ามาใน **{newChannel}** ช่างเป็นเกียรติจริงๆ',
+        leave: 'ท่าน<@{user}> ออกจาก **{oldChannel}** ไปแล้ว ช่างน่าเสียใจ',
+        move: 'ท่าน<@{user}> เดินเล่นจาก **{oldChannel}** ไป **{newChannel}**', // 👈 ต้องมีลูกน้ำ , ปิดท้ายตรงนี้ด้วยครับ!
+        color: '#ff69b4'
     }
 };
 
@@ -94,17 +100,19 @@ client.on('voiceStateUpdate', (oldState, newState) => {
     if (!oldState.channelId && newState.channelId) {
         joinTimes.set(userId, now);
         
-        // เช็คข้อความ VIP (Join)
         let text = `เข้า **${newState.channel.name}** มาทะไม <@${userId}> ชิชิงอล 😡`;
-        if (vipMessages[userId] && vipMessages[userId].join) {
-            text = vipMessages[userId].join
-                .replace(/{user}/g, userId)
-                .replace(/{newChannel}/g, newState.channel.name);
+        let embedColor = '#2ecc71'; // สีเขียวปกติ
+        
+        if (vipMessages[userId]) {
+            if (vipMessages[userId].join) {
+                text = vipMessages[userId].join.replace(/{user}/g, userId).replace(/{newChannel}/g, newState.channel.name);
+            }
+            if (vipMessages[userId].color) embedColor = vipMessages[userId].color; // ดึงสีพิเศษมาใช้ถ้ามี
         }
 
         if (logChannel) {
             const embedJoin = new EmbedBuilder()
-                .setColor('#2ecc71')
+                .setColor(embedColor)
                 .setAuthor({ name: `${member.user.tag} ได้เข้าห้องเสียง`, iconURL: avatarUrl })
                 .setThumbnail(avatarUrl)
                 .setDescription(text)
@@ -120,17 +128,19 @@ client.on('voiceStateUpdate', (oldState, newState) => {
             const duration = now - joinedAt;
             saveVoiceTime(userId, duration);
             
-            // เช็คข้อความ VIP (Leave)
             let text = `ออกจากห้อง **${oldState.channel.name}** ทำไม <@${userId}> 😡`;
-            if (vipMessages[userId] && vipMessages[userId].leave) {
-                text = vipMessages[userId].leave
-                    .replace(/{user}/g, userId)
-                    .replace(/{oldChannel}/g, oldState.channel.name);
+            let embedColor = '#e74c3c'; // สีแดงปกติ
+
+            if (vipMessages[userId]) {
+                if (vipMessages[userId].leave) {
+                    text = vipMessages[userId].leave.replace(/{user}/g, userId).replace(/{oldChannel}/g, oldState.channel.name);
+                }
+                if (vipMessages[userId].color) embedColor = vipMessages[userId].color; // ดึงสีพิเศษมาใช้ถ้ามี
             }
 
             if (logChannel) {
                 const embedLeave = new EmbedBuilder()
-                    .setColor('#e74c3c')
+                    .setColor(embedColor)
                     .setAuthor({ name: `${member.user.tag} ได้ออกจากห้องเสียง`, iconURL: avatarUrl })
                     .setThumbnail(avatarUrl)
                     .setDescription(text)
@@ -151,18 +161,19 @@ client.on('voiceStateUpdate', (oldState, newState) => {
             const duration = now - joinedAt;
             saveVoiceTime(userId, duration);
             
-            // เช็คข้อความ VIP (Move)
             let text = `ย้ายจาก **${oldState.channel.name}** ไป **${newState.channel.name}** ทำไม <@${userId}> 😡`;
-            if (vipMessages[userId] && vipMessages[userId].move) {
-                text = vipMessages[userId].move
-                    .replace(/{user}/g, userId)
-                    .replace(/{oldChannel}/g, oldState.channel.name)
-                    .replace(/{newChannel}/g, newState.channel.name);
+            let embedColor = '#f1c40f'; // สีเหลืองปกติ
+
+            if (vipMessages[userId]) {
+                if (vipMessages[userId].move) {
+                    text = vipMessages[userId].move.replace(/{user}/g, userId).replace(/{oldChannel}/g, oldState.channel.name).replace(/{newChannel}/g, newState.channel.name);
+                }
+                if (vipMessages[userId].color) embedColor = vipMessages[userId].color; // ดึงสีพิเศษมาใช้ถ้ามี
             }
 
             if (logChannel) {
                 const embedMove = new EmbedBuilder()
-                    .setColor('#f1c40f')
+                    .setColor(embedColor)
                     .setAuthor({ name: `${member.user.tag} ได้ย้ายห้องเสียง`, iconURL: avatarUrl })
                     .setThumbnail(avatarUrl)
                     .setDescription(text)
