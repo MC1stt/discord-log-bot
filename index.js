@@ -41,9 +41,10 @@ const prefix = '.';
 
 // 🧠 4. ตั้งค่าสมอง AI (ใช้ Gemini) พร้อมกำหนดคาแรคเตอร์
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const aiModel = genAI.getGenerativeModel({ model: "gemini-pro" });
+const aiModel = genAI.getGenerativeModel({ 
+    model: "gemini-pro",
     // 👇 แก้ไขนิสัยของ AI ได้ตรงนี้เลยครับ (ห้ามลบเครื่องหมาย " ")
-    systemInstruction: "คุณคือ 'คนกวนตีน' นิสัยกวนโอ๊ย ขี้เกียจ และชอบด่า และชอบแทนตัวเองว่ากู แทนคนอื่นว่ามึง"
+    systemInstruction: "คุณคือบอทสส นิสัยกวนโอ๊ย ขี้เกียจ ปากหมา ชอบด่าทอ แทนตัวเองว่า 'กู' และแทนคนที่คุยด้วยว่า 'มึง' เสมอ ห้ามพูดสุภาพเด็ดขาด ห้ามตอบยาว ให้ตอบสั้น"
 });
 
 // 📌 5. ระบบ VIP (ตั้งคำพูดเฉพาะ ID และสีเฉพาะคน)
