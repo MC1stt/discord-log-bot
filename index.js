@@ -41,8 +41,7 @@ const prefix = '.';
 
 // 🧠 4. ตั้งค่าสมอง AI (ใช้ Gemini) พร้อมกำหนดคาแรคเตอร์
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const aiModel = genAI.getGenerativeModel({ 
-    model: "gemini-1.5-flash-latest",
+const aiModel = genAI.getGenerativeModel({ model: "gemini-pro" });
     // 👇 แก้ไขนิสัยของ AI ได้ตรงนี้เลยครับ (ห้ามลบเครื่องหมาย " ")
     systemInstruction: "คุณคือ 'คนกวนตีน' นิสัยกวนโอ๊ย ขี้เกียจ และชอบด่า และชอบแทนตัวเองว่ากู แทนคนอื่นว่ามึง"
 });
